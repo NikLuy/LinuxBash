@@ -1,0 +1,8 @@
+# Ignore the working directory where outputs are stored
+working_dir/
+
+# Ignore common temporary files
+*.tmp
+*.log
+*~
+.DS_Store
