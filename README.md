@@ -37,7 +37,19 @@ Run scripts from the repository root:
 
 ## Scripts
 
-- `create_kurs_structure.sh` - Creates the course folder structure (blocks 1-5 with aufgaben/loesungen subdirectories) - Uses config.sh
-- `show_params.sh` - Displays script parameters
-- `test_params.sh` - Tests the show_params.sh script with different parameters
+### Course Setup
+- `create_kurs_structure.sh` - Creates the course folder structure (blocks 1-5 with aufgaben/loesungen subdirectories)
 - `example_with_config.sh` - Example showing how to use the common configuration
+
+### Parameters
+- `show_params.sh` - Displays script parameters ($1-$9, $@, $#)
+- `test_params.sh` - Tests the show_params.sh script with different parameters
+
+### Redirection Demos
+- `demo_stdout_stderr.sh` - Basic stdout and stderr demonstration
+- `demo_redirections.sh` - Common redirection techniques (>, >>, 2>, &>)
+- `demo_pipes_and_tee.sh` - Pipes and tee command examples
+- `demo_advanced_redirections.sh` - Advanced techniques (heredocs, process substitution, etc.)
+- `test_all_redirections.sh` - Run all redirection demos in sequence
+
+See `REDIRECTION_CHEATSHEET.md` for quick reference!
