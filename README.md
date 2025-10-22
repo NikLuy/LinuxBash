@@ -4,8 +4,27 @@ This repository contains scripts and exercises for the Linux course.
 
 ## Structure
 
+- `config.sh` - Common configuration variables (WD, KURS_DIR, colors)
 - `scripts/` - All course scripts
 - `working_dir/` - Working directory for outputs (git ignored)
+
+## Configuration
+
+The `config.sh` file contains common variables used across all scripts:
+- `WD` - Working directory path (default: "working_dir")
+- `KURS_DIR` - Course structure directory (default: "$WD/Kurs")
+- Color variables for terminal output
+
+To use in your scripts:
+```bash
+# Source the configuration
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/../config.sh"
+
+# Use the variables
+ensure_working_dir
+echo "Output will go to: $WD"
+```
 
 ## Usage
 
@@ -18,6 +37,7 @@ Run scripts from the repository root:
 
 ## Scripts
 
-- `create_kurs_structure.sh` - Creates the course folder structure (blocks 1-5 with aufgaben/loesungen subdirectories)
+- `create_kurs_structure.sh` - Creates the course folder structure (blocks 1-5 with aufgaben/loesungen subdirectories) - Uses config.sh
 - `show_params.sh` - Displays script parameters
 - `test_params.sh` - Tests the show_params.sh script with different parameters
+- `example_with_config.sh` - Example showing how to use the common configuration

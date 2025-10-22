@@ -2,8 +2,15 @@
 #create_kurs_structure.sh
 # Creates the course folder structure in the working_dir
 
+# Source the common configuration
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/../config.sh"
+
+# Ensure working directory exists
+ensure_working_dir
+
 # Base directory - output to working_dir
-BASE_DIR="working_dir/Kurs"
+BASE_DIR="$KURS_DIR"
 
 # Create the base directory
 mkdir -p "$BASE_DIR"
