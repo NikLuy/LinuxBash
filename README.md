@@ -39,9 +39,15 @@ Run scripts from the repository root:
 
 ### Course Setup
 - `create_kurs_structure.sh` - Creates the course folder structure (blocks 1-5 with aufgaben/loesungen subdirectories)
-- `mkscript.sh` - Creates a new bash script with standard header template (description, author, version, date)
-- `test_mkscript.sh` - Tests the mkscript.sh script
 - `example_with_config.sh` - Example showing how to use the common configuration
+
+### Script Generator
+- `mkscript.sh` - Creates a new bash script with standard header template
+  - Usage: `./scripts/mkscript.sh <scriptname> <description> [author] [version]`
+  - Example: `./scripts/mkscript.sh script1 "Erstes Skript" "Nik Lussy" 1.0`
+  - Automatically adds shebang, description, author, version, and date
+  - Makes script executable and opens in editor
+- `test_mkscript.sh` - Tests the mkscript.sh script
 
 ### Parameters
 - `show_params.sh` - Displays script parameters ($1-$9, $@, $#)
