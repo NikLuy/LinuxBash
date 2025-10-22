@@ -39,6 +39,8 @@ Run scripts from the repository root:
 
 ### Course Setup
 - `create_kurs_structure.sh` - Creates the course folder structure (blocks 1-5 with aufgaben/loesungen subdirectories)
+- `mkscript.sh` - Creates a new bash script with standard header template (description, author, version, date)
+- `test_mkscript.sh` - Tests the mkscript.sh script
 - `example_with_config.sh` - Example showing how to use the common configuration
 
 ### Parameters
