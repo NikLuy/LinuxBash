@@ -2,9 +2,34 @@
 
 This repository contains scripts and exercises for the Linux course.
 
+## Quick Start
+
+After cloning the repository, run the initialization script to make all scripts executable:
+```bash
+bash init.sh
+```
+
+### Creating New Scripts
+
+**Option 1: Interactive (recommended)**
+```bash
+bash initscript.sh
+```
+- Prompts for script name, description, author, and version
+- Uses default values from `config.sh` (Author: Nik Lussy, Version: 1.0)
+- Creates script in `scripts/` folder
+- Opens in editor automatically
+
+**Option 2: Command line**
+```bash
+./scripts/mkscript.sh <scriptname> <description> [author] [version]
+```
+
 ## Structure
 
-- `config.sh` - Common configuration variables (WD, KURS_DIR, colors)
+- `init.sh` - Initialize repository (set executable permissions on all scripts)
+- `initscript.sh` - Interactive script creator with prompts and default values
+- `config.sh` - Common configuration variables (WD, KURS_DIR, colors, DEFAULT_AUTHOR, DEFAULT_VERSION)
 - `scripts/` - All course scripts
 - `working_dir/` - Working directory for outputs (git ignored)
 

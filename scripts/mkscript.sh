@@ -54,12 +54,16 @@ echo -e "${GREEN}Script '$SCRIPTNAME' created successfully!${NC}"
 echo -e "${YELLOW}Opening in editor...${NC}"
 
 # Open in editor (try various editors)
+# Position cursor at the end of the file
 if command -v nano &> /dev/null; then
-    nano "$SCRIPTNAME"
+    # +999 positions cursor at line 999 (effectively end of file for small scripts)
+    nano +999 "$SCRIPTNAME"
 elif command -v vim &> /dev/null; then
-    vim "$SCRIPTNAME"
+    # + positions cursor at last line
+    vim + "$SCRIPTNAME"
 elif command -v vi &> /dev/null; then
-    vi "$SCRIPTNAME"
+    # + positions cursor at last line
+    vi + "$SCRIPTNAME"
 else
     echo -e "${YELLOW}No editor found. You can edit the file manually.${NC}"
     echo "File location: $(pwd)/$SCRIPTNAME"

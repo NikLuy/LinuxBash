@@ -9,6 +9,12 @@ WD="working_dir"
 # Base directory for course structure
 KURS_DIR="$WD/Kurs"
 
+# Default script author
+DEFAULT_AUTHOR="Nik Lussy"
+
+# Default script version
+DEFAULT_VERSION="1.0"
+
 # Colors for output (optional)
 RED='\033[0;31m'
 GREEN='\033[0;32m'
