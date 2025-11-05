@@ -43,13 +43,13 @@ echo -e "${GREEN}✓ Eingabe ist eine gültige ganze Zahl: $number${NC}\n"
 # Check if the number is even or odd using modulo operator
 if ((number % 2 == 0)); then
     echo -e "${YELLOW}Ergebnis:${NC}"
-    echo "  $number ist eine ${GREEN}GERADE${NC} Zahl"
+    echo -e "  $number ist eine ${GREEN}GERADE${NC} Zahl"
     echo ""
     echo "  Berechnung: $number % 2 = $((number % 2))"
     echo "  Da der Rest 0 ist, ist die Zahl gerade."
 else
     echo -e "${YELLOW}Ergebnis:${NC}"
-    echo "  $number ist eine ${YELLOW}UNGERADE${NC} Zahl"
+    echo -e "  $number ist eine ${YELLOW}UNGERADE${NC} Zahl"
     echo ""
     echo "  Berechnung: $number % 2 = $((number % 2))"
     echo "  Da der Rest nicht 0 ist, ist die Zahl ungerade."
