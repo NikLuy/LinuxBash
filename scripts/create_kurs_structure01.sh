@@ -16,7 +16,7 @@ BASE_DIR="$KURS_DIR"
 # Create the base directory (this is the first mkdir — if it fails, exit with code 1)
 mkdir -p "$BASE_DIR"
 if [ $? -ne 0 ]; then
-    echo "Fehler: Konnte Verzeichnis '$BASE_DIR' nicht anlegen." >&2
+    echo "Fehler: Konnte Verzeichnis '$BASE_DIR' nicht anlegen." 1>&2
     exit 1
 fi
 
