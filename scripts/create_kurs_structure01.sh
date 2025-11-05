@@ -14,6 +14,7 @@ ensure_working_dir
 BASE_DIR="$KURS_DIR"
 
 # Create the base directory (this is the first mkdir — if it fails, exit with code 1)
+# -p option ensures no error if the directory exists
 mkdir -p "$BASE_DIR"
 if [ $? -ne 0 ]; then
     echo "Fehler: Konnte Verzeichnis '$BASE_DIR' nicht anlegen." 1>&2
