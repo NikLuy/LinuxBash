@@ -24,7 +24,16 @@ fi
 # Loop through blocks 1 to 5
 for i in {1..5}; do
   mkdir -p "$BASE_DIR/block$i/aufgaben"
+  if [ $? -ne 0 ]; then
+    echo "Fehler: Konnte Verzeichnis '$BASE_DIR/block$i/aufgaben' nicht anlegen." 1>&2
+    exit 1
+  fi
+  
   mkdir -p "$BASE_DIR/block$i/loesungen"
+  if [ $? -ne 0 ]; then
+    echo "Fehler: Konnte Verzeichnis '$BASE_DIR/block$i/loesungen' nicht anlegen." 1>&2
+    exit 1
+  fi
 done
 
 echo "Ordnerstruktur wurde erfolgreich erstellt!"
