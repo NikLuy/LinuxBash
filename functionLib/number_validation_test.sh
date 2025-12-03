@@ -1,5 +1,5 @@
 #!/bin/bash
-# quick_test_number_validation.sh - Schnelltest ohne Interaktion
+Schnelltest ohne Interaktion
 
 # FNCPATH setzen falls nicht gesetzt
 if [ -z "$FNCPATH" ]; then
