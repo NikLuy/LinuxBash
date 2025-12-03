@@ -1,0 +1,167 @@
+#!/bin/bash
+# file_functions - Funktionen zur Prüfung von Dateiattributen
+
+# Funktion: Prüft ob eine Datei existiert
+# Parameter: $1 - Dateipfad
+# Rückgabe: 0 wenn existiert, 1 wenn nicht
+file_exists() {
+    [ -e "$1" ]
+}
+
+# Funktion: Prüft ob eine reguläre Datei existiert
+# Parameter: $1 - Dateipfad
+# Rückgabe: 0 wenn reguläre Datei, 1 wenn nicht
+is_regular_file() {
+    [ -f "$1" ]
+}
+
+# Funktion: Prüft ob ein Verzeichnis existiert
+# Parameter: $1 - Verzeichnispfad
+# Rückgabe: 0 wenn Verzeichnis, 1 wenn nicht
+is_directory() {
+    [ -d "$1" ]
+}
+
+# Funktion: Prüft ob eine Datei lesbar ist
+# Parameter: $1 - Dateipfad
+# Rückgabe: 0 wenn lesbar, 1 wenn nicht
+is_readable() {
+    [ -r "$1" ]
+}
+
+# Funktion: Prüft ob eine Datei schreibbar ist
+# Parameter: $1 - Dateipfad
+# Rückgabe: 0 wenn schreibbar, 1 wenn nicht
+is_writable() {
+    [ -w "$1" ]
+}
+
+# Funktion: Prüft ob eine Datei ausführbar ist
+# Parameter: $1 - Dateipfad
+# Rückgabe: 0 wenn ausführbar, 1 wenn nicht
+is_executable() {
+    [ -x "$1" ]
+}
+
+# Funktion: Prüft ob eine Datei leer ist
+# Parameter: $1 - Dateipfad
+# Rückgabe: 0 wenn leer, 1 wenn nicht leer
+is_empty_file() {
+    [ -s "$1" ] && return 1 || return 0
+}
+
+# Funktion: Gibt die Dateigröße in Bytes zurück
+# Parameter: $1 - Dateipfad
+# Ausgabe: Dateigröße in Bytes
+get_file_size() {
+    if [ -f "$1" ]; then
+        stat -c %s "$1" 2>/dev/null || stat -f %z "$1" 2>/dev/null
+    else
+        echo "0"
+    fi
+}
+
+# Funktion: Gibt das Änderungsdatum der Datei zurück
+# Parameter: $1 - Dateipfad
+# Ausgabe: Änderungsdatum als Unix-Timestamp
+get_file_mtime() {
+    if [ -e "$1" ]; then
+        stat -c %Y "$1" 2>/dev/null || stat -f %m "$1" 2>/dev/null
+    fi
+}
+
+# Funktion: Prüft ob eine Datei neuer als eine andere ist
+# Parameter: $1 - Datei 1
+#            $2 - Datei 2
+# Rückgabe: 0 wenn Datei 1 neuer, 1 wenn nicht
+is_newer_than() {
+    [ "$1" -nt "$2" ]
+}
+
+# Funktion: Prüft ob eine Datei älter als eine andere ist
+# Parameter: $1 - Datei 1
+#            $2 - Datei 2
+# Rückgabe: 0 wenn Datei 1 älter, 1 wenn nicht
+is_older_than() {
+    [ "$1" -ot "$2" ]
+}
+
+# Funktion: Gibt den absoluten Pfad einer Datei zurück
+# Parameter: $1 - Dateipfad (relativ oder absolut)
+# Ausgabe: Absoluter Pfad
+get_absolute_path() {
+    local path="$1"
+    if [ -e "$path" ]; then
+        readlink -f "$path"
+    else
+        echo "$path"
+    fi
+}
+
+# Funktion: Gibt den Dateinamen ohne Pfad zurück
+# Parameter: $1 - Dateipfad
+# Ausgabe: Dateiname
+get_filename() {
+    basename "$1"
+}
+
+# Funktion: Gibt den Verzeichnispfad ohne Dateinamen zurück
+# Parameter: $1 - Dateipfad
+# Ausgabe: Verzeichnispfad
+get_directory() {
+    dirname "$1"
+}
+
+# Funktion: Gibt die Dateiendung zurück
+# Parameter: $1 - Dateipfad
+# Ausgabe: Dateiendung (ohne Punkt)
+get_file_extension() {
+    local filename=$(basename "$1")
+    echo "${filename##*.}"
+}
+
+# Funktion: Gibt den Dateinamen ohne Endung zurück
+# Parameter: $1 - Dateipfad
+# Ausgabe: Dateiname ohne Endung
+get_filename_without_extension() {
+    local filename=$(basename "$1")
+    echo "${filename%.*}"
+}
+
+# Funktion: Zählt Dateien in einem Verzeichnis
+# Parameter: $1 - Verzeichnispfad
+#            $2 - Pattern (optional, z.B. "*.txt")
+# Ausgabe: Anzahl der Dateien
+count_files() {
+    local dir="$1"
+    local pattern="${2:-*}"
+    
+    if [ -d "$dir" ]; then
+        find "$dir" -maxdepth 1 -type f -name "$pattern" | wc -l
+    else
+        echo "0"
+    fi
+}
+
+# Funktion: Prüft ob Datei ein symbolischer Link ist
+# Parameter: $1 - Dateipfad
+# Rückgabe: 0 wenn symbolischer Link, 1 wenn nicht
+is_symlink() {
+    [ -L "$1" ]
+}
+
+# Funktion: Erstellt Verzeichnis mit allen Parent-Verzeichnissen
+# Parameter: $1 - Verzeichnispfad
+# Rückgabe: 0 bei Erfolg, 1 bei Fehler
+create_directory() {
+    mkdir -p "$1"
+}
+
+# Funktion: Prüft Dateiberechtigungen (Oktalwert)
+# Parameter: $1 - Dateipfad
+# Ausgabe: Berechtigungen als Oktalwert (z.B. 755)
+get_file_permissions() {
+    if [ -e "$1" ]; then
+        stat -c %a "$1" 2>/dev/null || stat -f %A "$1" 2>/dev/null
+    fi
+}

@@ -1,0 +1,260 @@
+#!/bin/bash
+# math_functions - Mathematische Berechnungen und Funktionen
+
+# Funktion: Addition zweier Zahlen
+# Parameter: $1 - Erste Zahl
+#            $2 - Zweite Zahl
+# Ausgabe: Summe
+add() {
+    echo $(($1 + $2))
+}
+
+# Funktion: Subtraktion zweier Zahlen
+# Parameter: $1 - Erste Zahl (Minuend)
+#            $2 - Zweite Zahl (Subtrahend)
+# Ausgabe: Differenz
+subtract() {
+    echo $(($1 - $2))
+}
+
+# Funktion: Multiplikation zweier Zahlen
+# Parameter: $1 - Erste Zahl
+#            $2 - Zweite Zahl
+# Ausgabe: Produkt
+multiply() {
+    echo $(($1 * $2))
+}
+
+# Funktion: Division zweier Zahlen (ganzzahlig)
+# Parameter: $1 - Dividend
+#            $2 - Divisor
+# Ausgabe: Quotient (ganzzahlig)
+divide() {
+    if [ "$2" -eq 0 ]; then
+        echo "FEHLER: Division durch Null!" >&2
+        return 1
+    fi
+    echo $(($1 / $2))
+}
+
+# Funktion: Modulo-Operation
+# Parameter: $1 - Dividend
+#            $2 - Divisor
+# Ausgabe: Rest der Division
+modulo() {
+    if [ "$2" -eq 0 ]; then
+        echo "FEHLER: Division durch Null!" >&2
+        return 1
+    fi
+    echo $(($1 % $2))
+}
+
+# Funktion: Potenzrechnung
+# Parameter: $1 - Basis
+#            $2 - Exponent
+# Ausgabe: Ergebnis
+power() {
+    local base=$1
+    local exp=$2
+    local result=1
+    
+    for ((i=0; i<exp; i++)); do
+        result=$((result * base))
+    done
+    echo $result
+}
+
+# Funktion: Prüft ob eine Zahl gerade ist
+# Parameter: $1 - Zu prüfende Zahl
+# Rückgabe: 0 wenn gerade, 1 wenn ungerade
+is_even() {
+    [ $(($1 % 2)) -eq 0 ]
+}
+
+# Funktion: Prüft ob eine Zahl ungerade ist
+# Parameter: $1 - Zu prüfende Zahl
+# Rückgabe: 0 wenn ungerade, 1 wenn gerade
+is_odd() {
+    [ $(($1 % 2)) -ne 0 ]
+}
+
+# Funktion: Gibt den absoluten Wert einer Zahl zurück
+# Parameter: $1 - Zahl
+# Ausgabe: Absoluter Wert
+abs() {
+    local num=$1
+    if [ $num -lt 0 ]; then
+        echo $((-num))
+    else
+        echo $num
+    fi
+}
+
+# Funktion: Gibt das Maximum zweier Zahlen zurück
+# Parameter: $1 - Erste Zahl
+#            $2 - Zweite Zahl
+# Ausgabe: Größere Zahl
+max() {
+    if [ $1 -gt $2 ]; then
+        echo $1
+    else
+        echo $2
+    fi
+}
+
+# Funktion: Gibt das Minimum zweier Zahlen zurück
+# Parameter: $1 - Erste Zahl
+#            $2 - Zweite Zahl
+# Ausgabe: Kleinere Zahl
+min() {
+    if [ $1 -lt $2 ]; then
+        echo $1
+    else
+        echo $2
+    fi
+}
+
+# Funktion: Berechnet die Fakultät einer Zahl
+# Parameter: $1 - Zahl
+# Ausgabe: Fakultät
+factorial() {
+    local n=$1
+    local result=1
+    
+    if [ $n -lt 0 ]; then
+        echo "FEHLER: Fakultät nur für nicht-negative Zahlen!" >&2
+        return 1
+    fi
+    
+    for ((i=2; i<=n; i++)); do
+        result=$((result * i))
+    done
+    echo $result
+}
+
+# Funktion: Berechnet den Durchschnitt einer Liste von Zahlen
+# Parameter: Liste von Zahlen
+# Ausgabe: Durchschnitt (ganzzahlig)
+average() {
+    local sum=0
+    local count=$#
+    
+    if [ $count -eq 0 ]; then
+        echo "0"
+        return
+    fi
+    
+    for num in "$@"; do
+        sum=$((sum + num))
+    done
+    
+    echo $((sum / count))
+}
+
+# Funktion: Findet die größte Zahl in einer Liste
+# Parameter: Liste von Zahlen
+# Ausgabe: Größte Zahl
+find_max() {
+    local max=$1
+    shift
+    
+    for num in "$@"; do
+        if [ $num -gt $max ]; then
+            max=$num
+        fi
+    done
+    
+    echo $max
+}
+
+# Funktion: Findet die kleinste Zahl in einer Liste
+# Parameter: Liste von Zahlen
+# Ausgabe: Kleinste Zahl
+find_min() {
+    local min=$1
+    shift
+    
+    for num in "$@"; do
+        if [ $num -lt $min ]; then
+            min=$num
+        fi
+    done
+    
+    echo $min
+}
+
+# Funktion: Summiert alle übergebenen Zahlen
+# Parameter: Liste von Zahlen
+# Ausgabe: Summe
+sum() {
+    local total=0
+    
+    for num in "$@"; do
+        total=$((total + num))
+    done
+    
+    echo $total
+}
+
+# Funktion: Prüft ob eine Zahl eine Primzahl ist
+# Parameter: $1 - Zu prüfende Zahl
+# Rückgabe: 0 wenn Primzahl, 1 wenn nicht
+is_prime() {
+    local n=$1
+    
+    if [ $n -lt 2 ]; then
+        return 1
+    fi
+    
+    if [ $n -eq 2 ]; then
+        return 0
+    fi
+    
+    if [ $((n % 2)) -eq 0 ]; then
+        return 1
+    fi
+    
+    local i=3
+    while [ $((i * i)) -le $n ]; do
+        if [ $((n % i)) -eq 0 ]; then
+            return 1
+        fi
+        i=$((i + 2))
+    done
+    
+    return 0
+}
+
+# Funktion: Berechnet den größten gemeinsamen Teiler (GCD)
+# Parameter: $1 - Erste Zahl
+#            $2 - Zweite Zahl
+# Ausgabe: GCD
+gcd() {
+    local a=$1
+    local b=$2
+    local temp
+    
+    while [ $b -ne 0 ]; do
+        temp=$b
+        b=$((a % b))
+        a=$temp
+    done
+    
+    echo $a
+}
+
+# Funktion: Gleitkomma-Berechnung mit bc
+# Parameter: $1 - Mathematischer Ausdruck
+#            $2 - Dezimalstellen (optional, Standard: 2)
+# Ausgabe: Berechnetes Ergebnis
+calc() {
+    local expr="$1"
+    local scale="${2:-2}"
+    
+    if command -v bc >/dev/null 2>&1; then
+        echo "scale=$scale; $expr" | bc
+    else
+        echo "FEHLER: bc nicht installiert!" >&2
+        return 1
+    fi
+}

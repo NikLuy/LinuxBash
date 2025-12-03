@@ -1,0 +1,114 @@
+#!/bin/bash
+# util_functions - Allgemein nützliche Funktionen für Benutzer-Eingaben und Fehlermeldungen
+
+# Funktion: Ja/Nein-Abfrage vom Benutzer
+# Parameter: $1 - Die Frage, die gestellt werden soll
+# Rückgabe: 0 für Ja, 1 für Nein
+ask_yes_no() {
+    local question="$1"
+    local answer
+    
+    while true; do
+        read -p "$question (j/n): " answer
+        case $answer in
+            [jJ]|[yY]|[jJ][aA]|[yY][eE][sS])
+                return 0
+                ;;
+            [nN]|[nN][oO]|[nN][eE][iI][nN])
+                return 1
+                ;;
+            *)
+                echo "Bitte mit 'j' oder 'n' antworten."
+                ;;
+        esac
+    done
+}
+
+# Funktion: Fehlermeldung ausgeben und Script beenden
+# Parameter: $1 - Fehlermeldung
+#            $2 - Exit-Code (optional, Standard: 1)
+error_exit() {
+    local message="$1"
+    local exit_code="${2:-1}"
+    
+    echo "FEHLER: $message" >&2
+    exit "$exit_code"
+}
+
+# Funktion: Warnung ausgeben (Script läuft weiter)
+# Parameter: $1 - Warnmeldung
+warning() {
+    local message="$1"
+    echo "WARNUNG: $message" >&2
+}
+
+# Funktion: Info-Meldung ausgeben
+# Parameter: $1 - Info-Meldung
+info() {
+    local message="$1"
+    echo "INFO: $message"
+}
+
+# Funktion: Prüft ob ein String leer ist
+# Parameter: $1 - Der zu prüfende String
+# Rückgabe: 0 wenn leer, 1 wenn nicht leer
+is_empty() {
+    [ -z "$1" ]
+}
+
+# Funktion: Prüft ob ein Wert eine Zahl ist
+# Parameter: $1 - Der zu prüfende Wert
+# Rückgabe: 0 wenn Zahl, 1 wenn nicht
+is_number() {
+    [[ "$1" =~ ^[0-9]+$ ]]
+}
+
+# Funktion: Eingabe vom Benutzer mit Validierung
+# Parameter: $1 - Prompt-Text
+#            $2 - Validierungsfunktion (optional)
+# Rückgabe: Die eingegebene und validierte Eingabe in Variable $REPLY
+read_input() {
+    local prompt="$1"
+    local validator="$2"
+    
+    while true; do
+        read -p "$prompt: " REPLY
+        
+        if [ -z "$validator" ]; then
+            break
+        elif $validator "$REPLY"; then
+            break
+        else
+            echo "Ungültige Eingabe. Bitte erneut versuchen."
+        fi
+    done
+}
+
+# Funktion: Fortschrittsbalken anzeigen
+# Parameter: $1 - Aktueller Wert
+#            $2 - Maximalwert
+progress_bar() {
+    local current=$1
+    local total=$2
+    local width=50
+    local percentage=$((current * 100 / total))
+    local completed=$((width * current / total))
+    local remaining=$((width - completed))
+    
+    printf "\r["
+    printf "%${completed}s" | tr ' ' '='
+    printf "%${remaining}s" | tr ' ' '-'
+    printf "] %d%%" "$percentage"
+    
+    if [ "$current" -eq "$total" ]; then
+        echo
+    fi
+}
+
+# Funktion: Bestätigung vom Benutzer einholen
+# Parameter: $1 - Aktion, die bestätigt werden soll
+# Rückgabe: 0 wenn bestätigt, 1 wenn abgebrochen
+confirm_action() {
+    local action="$1"
+    ask_yes_no "Möchten Sie wirklich '$action' ausführen?"
+}

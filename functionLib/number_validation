@@ -1,0 +1,66 @@
+#!/bin/bash
+# number_validation - Funktionen zur Zahlenvalidierung und -verarbeitung
+
+# Funktion: Prüft ob der Parameter eine ganze Zahl ist
+is_int() {
+    local value="$1"
+    
+    # Prüfen ob Parameter leer ist
+    if [ -z "$value" ]; then
+        return 1
+    fi
+    
+    if [[ "$value" =~ ^[+-]?[0-9]+$ ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+# Funktion: Prüft ob der Parameter eine Zahl ist (mit oder ohne Nachkommastellen)
+is_num() {
+    local value="$1"
+    
+    # Prüfen ob Parameter leer ist
+    if [ -z "$value" ]; then
+        return 1
+    fi
+    
+    if [[ "$value" =~ ^[+-]?([0-9]+\.[0-9]*|[0-9]*\.[0-9]+|[0-9]+)$ ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+# Funktion: Summiert alle übergebenen ganzen Zahlen
+sum_up() {
+    local sum=0
+    local valid_count=0
+    local has_error=0
+    
+    if [ $# -eq 0 ]; then
+        echo "0"
+        return 1
+    fi
+
+    for value in "$@"; do
+        # Prüfen ob der Wert eine ganze Zahl ist
+        if is_int "$value"; then
+            # Gültige Zahl gefunden, zur Summe addieren
+            sum=$((sum + value))
+            valid_count=$((valid_count + 1))
+        else
+            # Ungültige Zahl wird ignoriert, aber als Fehler markiert
+            has_error=1
+        fi
+    done
+    
+    echo "$sum"
+    
+    if [ $valid_count -eq 0 ] || [ $has_error -eq 1 ]; then
+        return 1
+    else
+        return 0
+    fi
+}
